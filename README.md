@@ -2,7 +2,7 @@
 
 Traefik service for HashiCorp Nomad
 
-You need `shuttle` cli to use this repo.
+You need [Shuttle](https://github.com/lunarway/shuttle) cli to use this repo.
 
 The desired state is defined in `shuttle.yaml` and the plan in `plan.yaml`. 
 
