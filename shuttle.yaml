@@ -1,0 +1,23 @@
+plan: .
+
+vars:
+  service: traefik
+  repo: nomad-traefik
+
+  config:
+    dashboard: true
+    destination: "local/traefik.toml"
+    source: traefik.toml
+
+  docker:
+    Image: traefik
+    Tag: v2.2
+
+  nomad:
+    region: global
+    datacenter: dc1
+    type: "system"
+
+  resources:
+    cpu: 200
+    memory: 256

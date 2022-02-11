@@ -1,0 +1,5 @@
+scripts:
+  generate_hcl:
+    description: Generate Nomad stanza files
+    actions:
+      - shell: scripts/generate_hcl.sh
