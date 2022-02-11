@@ -1,27 +1,7 @@
-{{- $service:=string "service" .Vars -}}
-{{- $dockerTag:=string "docker.Tag" .Vars -}}
-{{- $dockerImage:=string "docker.Image" .Vars -}}
-
-{{- $nomad:=get "nomad" .Vars -}}
-{{- $region:=string "nomad.region" .Vars -}}
-{{- $datacenter:=string "nomad.datacenter" .Vars -}}
-{{- $type:=string "nomad.type" .Vars -}}
-
-{{- $resources:=get "resources" .Vars -}}
-{{- $cpu:=get "resources.cpu" .Vars -}}
-{{- $mem:=get "resources.memory" .Vars -}}
-
-{{- $config:=string "config" .Vars -}}
-{{- $source:=string "config.source" .Vars -}}
-{{- $destination:=string "config.destination" .Vars -}}
-
-{{- $dashboard:=string "config.dashboard" .Vars -}}
-{{- $insecure:=string "config.insecure" .Vars -}}
-
-job "{{ $service }}-job" {
-  region      = "{{ $region }}"
-  datacenters = ["{{ $datacenter }}"]
-  type        = "{{ $type }}"
+job "traefik-job" {
+  region      = "global"
+  datacenters = ["dc1"]
+  type        = "system"
 
   constraint {
     attribute = "${meta.type}"
@@ -59,7 +39,7 @@ job "{{ $service }}-job" {
       driver = "docker"
 
       config {
-        image        = "{{ $dockerImage }}:{{ $dockerTag }}"
+        image        = "traefik:v2.2"
         network_mode = "host"
 
         volumes = [
@@ -79,8 +59,8 @@ job "{{ $service }}-job" {
     [entryPoints.traefik]
     address = ":8081"
 [api]
-    dashboard = {{ $dashboard }}
-    insecure  = {{ $insecure }}
+    dashboard = true
+    insecure  = true
 # Enable Consul Catalog configuration backend.
 [providers.consulCatalog]
     prefix           = "traefik"
@@ -90,12 +70,12 @@ job "{{ $service }}-job" {
       scheme  = "http"
 EOF
 
-        destination = "{{ $destination }}"
+        destination = "local/traefik.toml"
       }
 
       resources {
-        cpu    = {{ $cpu }}
-        memory = {{ $mem }}
+        cpu    = 200
+        memory = 256
       }
     }
   }
