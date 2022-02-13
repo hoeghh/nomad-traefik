@@ -1,9 +1,14 @@
-#!/bin/bash
+#!/bin/sh
 
 # Fail on error exit codes
 set -e
 service=$(shuttle --skip-pull get service)
 
+if [ -z "$tmp" ]; then
+  echo "You need to run this through shuttle"
+  echo "Exiting..."
+  exit 1
+fi
 
 # Cleanup
 rm -rf $tmp/$service
@@ -19,12 +24,3 @@ if [ ! $(stat -t -- *.tmpl >/dev/null 2>&1) ]; then
     fi
   done
 fi
-
-# Ensure clean slate
-if [ ! -d "./gitops/$service" ]; then
-  rm -rf ./gitops/$service/*
-  mkdir -p ./gitops/$service
-fi
-
-# Move stanzas to gitops folder
-mv $tmp/$service/* ./gitops/$service/
