@@ -15,7 +15,7 @@ docker build hoeghh/shuttle .
 
 And an alias can be created via
 ```
-alias shuttle="docker run -it -v $(pwd):/tmp/shuttle hoeghh/shuttle shuttle"
+alias shuttle="docker run -it -v \$(pwd):/tmp/shuttle hoeghh/shuttle shuttle"
 ```
 
 > If your scripts uses bash, then you need to install bash into the Alpine docker image for it to work
